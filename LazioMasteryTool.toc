@@ -1,0 +1,8 @@
+## Interface: 60200
+## Author: Lazio
+## Version: 1.0
+## Title: LazioMasteryTool
+## Notes: Un addon super genial pour savoir combien tu es bon.
+## SavedVariables: triggers_toggle
+
+LazioMasteryTool.lua
