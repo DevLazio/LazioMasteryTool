@@ -44,7 +44,6 @@ local function calcAverageNumberOfHoTs()
          totalValue = totalValue + playersTable[key][i] * i;
       end
       if totalTime > 0 then
-         print(key .. ' ' .. totalValue / totalTime);
          total = total + (totalValue / totalTime);
 		 nbrAffectedPlayers = nbrAffectedPlayers + 1;
       end
@@ -58,9 +57,9 @@ local function getNbrBuff(player)
 	local  nbrBuff = 0;
 
 	repeat
-		local name, rank, icon, count, dispelType, duration, expires, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff, value1, value2, value3 = UnitBuff(playerName, i);
+		local name, rank, icon, count, dispelType, duration, expires, caster, isStealable, shouldConsolidate, spellID, canApplyAura, isBossDebuff, value1, value2, value3 = UnitBuff(player, i);
 		i = i + 1;
-		if spellList[spellID] then
+		if spellList[spellID] and caster == 'player' then
 			nbrBuff = nbrBuff + 1;
 		end
 	until not(spellID);
@@ -84,7 +83,7 @@ local function eventHandler(self, event, ...)
 
 			local spellId, spellName, spellSchool = select(12, ...);
 			
-			if (spellList[spellId]) then			
+			if (spellList[spellId]) then
 				playersTable[destName][playerHotNumber[destName]['currentLevel']] = playersTable[destName][playerHotNumber[destName]['currentLevel']] + timestamp - playerHotNumber[destName]['timestamp'];
 				playerHotNumber[destName]['currentLevel'] = playerHotNumber[destName]['currentLevel'] + 1;
 				playerHotNumber[destName]['timestamp'] = timestamp;
