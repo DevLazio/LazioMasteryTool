@@ -37,6 +37,8 @@ frame:RegisterEvent("CHAT_MSG_SAY")
 local function calcAverageNumberOfHoTs()
    local total = 0;
    local nbrAffectedPlayers = 0;
+   local firstTime = 0;
+   
    for key,value in pairs(playersTable) do
       local totalTime = 0;
       local totalValue = 0;
@@ -45,8 +47,14 @@ local function calcAverageNumberOfHoTs()
          totalValue = totalValue + playersTable[key][i] * i;
       end
       if totalTime > 0 then
-         total = total + (totalValue / totalTime);
-		 nbrAffectedPlayers = nbrAffectedPlayers + 1;
+		if firstTime == 0 then
+			firstTime = totalTime;
+			nbrAffectedPlayers = nbrAffectedPlayers + 1;
+		else
+			nbrAffectedPlayers = nbrAffectedPlayers + (totalTime / firstTime);
+		end
+		print(key .. ' ' .. totalValue / totalTime);
+        total = total + ((totalValue / totalTime) * (totalTime / firstTime));
       end
    end
    total = total / nbrAffectedPlayers;
@@ -121,15 +129,13 @@ local function eventHandler(self, event, ...)
 			allowedTargets[name] = true;
 			i = i + 1;
 		end
-		tprint(allowedTargets);
+		--tprint(allowedTargets);
 	else if (event == "PLAYER_REGEN_ENABLED") then
 		for key,value in pairs(playersTable) do
 			playersTable[key][0] = 1;
 			playersTable[key][playerHotNumber[key]['currentLevel']] = playersTable[key][playerHotNumber[key]['currentLevel']] + time() - playerHotNumber[key]['timestamp'];
-			
 		end
-		
-		tprint(playersTable);
+		--tprint(playersTable);
 		--tprint(playerHotNumber);
 		--tprint(allowedTargets);
 		calcAverageNumberOfHoTs();
