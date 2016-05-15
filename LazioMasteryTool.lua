@@ -8,6 +8,7 @@ local spellList = {
         	[48438] = true,		-- WG
 			[8936] = true,		-- Regrowth
 			[102342] = true,	-- Ironbark
+			[162359] = true,	-- Genesis
 			}
 			
 local playerName = UnitName("player");
